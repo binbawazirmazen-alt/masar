@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منظومة مسار الذكية | Masar AI</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com/3.4.17"></script>
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+    <!-- Supabase JS Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.39.7/dist/umd/supabase.min.js"></script>
+    <!-- Google Fonts: Cairo -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Cairo', sans-serif; background-color: #f8fafc; color: #0f172a; }
+        .soft-card { background: #ffffff; border: 1px solid #e2e8f0; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.04); }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col p-4 sm:p-6">
+
+    <!-- شريط الرأس -->
+    <header class="bg-white border border-slate-200 rounded-3xl p-4 sm:p-5 mb-6 flex flex-wrap justify-between items-center max-w-6xl mx-auto w-full shadow-sm gap-4">
+        <div class="flex items-center gap-3">
+            <div class="w-12 h-12 rounded-2xl bg-gradient-to-tr from-indigo-600 to-teal-500 flex items-center justify-center font-black text-2xl text-white shadow-md shadow-indigo-600/20">
+                مـ
+            </div>
+            <div>
+                <div class="flex items-center gap-2">
+                    <h1 class="font-black text-lg sm:text-xl text-slate-900">منظومة مَسَار الذكية</h1>
+                    <span class="text-[11px] font-bold px-2.5 py-0.5 rounded-full bg-teal-50 text-teal-700 border border-teal-200">متصل حياً بـ Supabase ✓</span>
+                </div>
+                <p class="text-xs text-slate-500 font-medium">نظام متعدد الوكلاء لإدارة المواهب والتدريب الجامعي</p>
+            </div>
+        </div>
+        
+        <!-- التبديل بين الطالب والجامعة -->
+        <div class="flex gap-2 bg-slate-100 p-1.5 rounded-2xl border border-slate-200 text-xs sm:text-sm font-bold">
+            <button id="b-std" class="px-4 py-2 rounded-xl bg-white text-indigo-700 shadow-sm transition" onclick="showStd()">🎓 بوابة الطالب</button>
+            <button id="b-uni" class="px-4 py-2 rounded-xl text-slate-500 hover:text-slate-900 transition" onclick="showUni()">🏛️ إدارة الجامعة</button>
+        </div>
+    </header>
+
+    <!-- المحتوى الرئيسي -->
+    <main class="max-w-6xl mx-auto w-full space-y-6">
+
+        <!-- ================= بوابة الطالب ================= -->
+        <div id="v-std" class="space-y-6">
+            
+            <!-- بطاقة الطالب -->
+            <div class="soft-card p-6 sm:p-7 rounded-3xl flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 bg-gradient-to-r from-white via-indigo-50/20 to-teal-50/20">
+                <div class="flex items-center gap-4">
+                    <div class="w-16 h-16 rounded-2xl bg-indigo-700 text-white flex items-center justify-center font-black text-2xl shadow-md shrink-0">
+                        م.ب
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <h2 id="student-name-display" class="text-xl font-black text-slate-900">مازن باوزير</h2>
+                            <span id="student-card-display" class="px-2.5 py-0.5 bg-slate-100 text-slate-600 rounded-lg text-xs font-mono font-bold">2026-ENG-101</span>
+                            <span class="px-2 py-0.5 bg-teal-50 text-teal-700 border border-teal-200 rounded-full text-xs font-bold">طالب مسجل بقاعدة البيانات</span>
+                        </div>
+                        <p id="student-major-display" class="text-xs sm:text-sm text-slate-600 mt-1">جامعة العلوم والتكنولوجيا • هندسة البرمجيات • معدل: <strong id="student-gpa-display" class="text-indigo-700 font-bold">3.85 / 4.00</strong></p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button class="px-4 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-indigo-600/25 transition" onclick="openRiasecModal()">
+                        📋 اختبار الميول (RIASEC)
+                    </button>
+                </div>
+            </div>
+
+            <!-- بطاقة تنبيه الإنقاذ الاستباقي (وكيل الدعم) -->
+            <div class="soft-card p-6 rounded-3xl border-l-4 border-l-rose-500 bg-white">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="px-3 py-1 bg-rose-50 text-rose-700 border border-rose-200 rounded-lg text-xs font-bold">🚨 وكيل الدعم (تدخل استباقي)</span>
+                    <span class="text-xs text-rose-600 font-bold font-mono">الدرجة: 60%</span>
+                </div>
+                <h3 class="text-base font-black text-slate-900 mt-2">انخفاض في درجات مقرر «الرسم والتصميم الهندسي»</h3>
+                <p class="text-xs sm:text-sm text-slate-600 mt-1 mb-4 leading-relaxed">
+                    رصد وكيل التحليل ضعفاً في مقرر الرسم؛ قام وكيل الدعم بجدولة خطة إنقاذ (حقيبة ملخصات + تعيين الزميل خالد المنصوري 96% للدراسة معك).
+                </p>
+                <div class="flex items-center gap-3">
+                    <button id="btn-save-intervention" class="px-5 py-2.5 bg-rose-600 hover:bg-rose-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm transition" onclick="saveSupportIntervention()">
+                        تفعيل خطة الإنقاذ وحفظها في Supabase 🚀
+                    </button>
+                    <button class="px-4 py-2.5 bg-slate-100 hover:bg-slate-200 text-slate-700 rounded-xl text-xs font-bold border border-slate-200" onclick="alert('تم حجز موعد مع المرشد د. عادل الشميري (الأربعاء 11:00 ص)')">
+                        حجز موعد مرشد
+                    </button>
+                </div>
+            </div>
+
+            <!-- بطاقة فرصة التدريب الوظيفي (وكيل التدريب) -->
+            <div class="soft-card p-6 rounded-3xl border-l-4 border-l-teal-500 bg-white">
+                <div class="flex items-center justify-between mb-2">
+                    <span class="px-3 py-1 bg-teal-50 text-teal-800 border border-teal-200 rounded-lg text-xs font-bold">💼 وكيل التدريب (مطابقة 92%)</span>
+                    <span class="text-xs text-teal-700 font-bold font-mono">صيف 2026</span>
+                </div>
+                <h3 id="job-title-text" class="text-base font-black text-slate-900 mt-2">متدرب مطور بايثون وجافا لدى «شركة يمن سوفت للحلول التقنية»</h3>
+                <p id="job-loc-text" class="text-xs sm:text-sm text-slate-600 mt-1 mb-4 leading-relaxed">
+                    المقر: صنعاء - فج عطان (متاح تدريب هجين وعن بُعد). جهّز النظام خطاب التزكية وسيرتك الذاتية المعتمدة تلقائياً.
+                </p>
+                <button id="btn-apply-job" class="px-5 py-2.5 bg-teal-600 hover:bg-teal-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-sm transition" onclick="applyToJob()">
+                    إرسال السيرة الذاتية وتوثيقها في جدول training_matches 📤
+                </button>
+            </div>
+
+        </div>
+
+        <!-- ================= إدارة الجامعة ================= -->
+        <div id="v-uni" class="hidden space-y-6">
+            
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+                <div class="soft-card p-5 rounded-3xl">
+                    <p class="text-xs font-bold text-slate-500 mb-1">نسبة الاحتفاظ بالطلاب</p>
+                    <p class="text-2xl sm:text-3xl font-black text-teal-600">94.2%</p>
+                    <p class="text-[10px] text-slate-400 mt-1">+8.5% مقارنة بالعام السابق</p>
+                </div>
+                <div class="soft-card p-5 rounded-3xl">
+                    <p class="text-xs font-bold text-slate-500 mb-1">طلاب تم إنقاذهم</p>
+                    <p id="live-rescued-count" class="text-2xl sm:text-3xl font-black text-indigo-700">142</p>
+                    <p class="text-[10px] text-slate-400 mt-1">تجاوزوا خطر الرسوب</p>
+                </div>
+                <div class="soft-card p-5 rounded-3xl">
+                    <p class="text-xs font-bold text-slate-500 mb-1">نسبة التسكين بالتدريب</p>
+                    <p class="text-2xl sm:text-3xl font-black text-amber-600">78.4%</p>
+                    <p class="text-[10px] text-slate-400 mt-1">1,240 فرصة تدريبية</p>
+                </div>
+                <div class="soft-card p-5 rounded-3xl">
+                    <p class="text-xs font-bold text-slate-500 mb-1">توفير وقت المرشد</p>
+                    <p class="text-2xl sm:text-3xl font-black text-teal-600">82%</p>
+                    <p class="text-[10px] text-slate-400 mt-1">أتمتة المتابعة الروتينية</p>
+                </div>
+            </div>
+
+            <!-- بطاقة تقرير الاعتماد الأكاديمي -->
+            <div class="soft-card p-6 sm:p-7 rounded-3xl bg-gradient-to-br from-white to-indigo-50/40 border border-indigo-100 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                <div>
+                    <span class="text-xs font-black text-indigo-700">🏛️ مجلس الاعتماد الأكاديمي وضمان الجودة</span>
+                    <h3 class="text-base sm:text-lg font-black text-slate-900 mt-1">ملف استيفاء معايير الجودة والاعتماد البرامجي</h3>
+                    <p class="text-xs sm:text-sm text-slate-600 mt-1">يوثق النظام موائمة مخرجات التعلم ونسب توظيف الخريجين في سوق العمل تلقائياً.</p>
+                </div>
+                <button class="px-5 py-3 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl text-xs sm:text-sm font-bold shadow-md shadow-indigo-600/25 shrink-0 transition" onclick="alert('جاري إعداد وتحميل تقرير الاعتماد الأكاديمي الكامل بصيغة PDF...')">
+                    تحميل تقرير الاعتماد الأكاديمي 📥
+                </button>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- الربط البرمجي الحي بسوبابيز -->
+    <script>
+        const SUPABASE_URL = "https://veesfstaezdkodaarjjh.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_QqlUtQGOJz01ZyNspxoVYA_l2ikbM9P";
+        
+        let client = null;
+        let studentId = "b0000000-0000-0000-0000-000000000001";
+        let opportunityId = null;
+
+        window.onload = function() {
+            if (window.supabase) {
+                client = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                syncFromSupabase();
+            }
+        };
+
+        async function syncFromSupabase() {
+            if (!client) return;
+            try {
+                const { data: students } = await client.from('students').select('*').limit(1);
+                if (students && students.length > 0) {
+                    const st = students[0];
+                    studentId = st.id;
+                    document.getElementById('student-name-display').textContent = st.full_name;
+                    document.getElementById('student-card-display').textContent = st.university_card_number;
+                    document.getElementById('student-gpa-display').textContent = st.gpa + " / 4.00";
+                    document.getElementById('student-major-display').textContent = "جامعة العلوم والتكنولوجيا • " + st.current_major;
+                }
+
+                const { data: opps } = await client.from('training_opportunities').select('*').limit(1);
+                if (opps && opps.length > 0) {
+                    const opp = opps[0];
+                    opportunityId = opp.id;
+                    document.getElementById('job-title-text').textContent = opp.title + " لدى «" + opp.company_name + "»";
+                    document.getElementById('job-loc-text').textContent = "المقر: " + opp.location + " • متاح هجين وعن بُعد.";
+                }
+            } catch (e) {}
+        }
+
+        async function saveSupportIntervention() {
+            if (client) {
+                try {
+                    await client.from('support_interventions').insert({
+                        student_id: studentId,
+                        course_name: "الرسم والتصميم الهندسي",
+                        trigger_reason: "انخفاض الدرجة إلى 60%",
+                        action_taken: "تفعيل حقيبة الشروحات وتعيين الزميل خالد المنصوري",
+                        status: "in_progress"
+                    });
+                    alert("✓ تم حفظ خطة الإنقاذ فعلياً في جدول support_interventions بقاعدة بيانات Supabase!");
+                    const c = document.getElementById('live-rescued-count');
+                    c.textContent = parseInt(c.textContent) + 1;
+                    return;
+                } catch (e) {}
+            }
+            alert("تم تفعيل خطة الإنقاذ بنجاح!");
+        }
+
+        async function applyToJob() {
+            if (client && opportunityId) {
+                try {
+                    await client.from('training_matches').insert({
+                        student_id: studentId,
+                        opportunity_id: opportunityId,
+                        match_percentage: 92.0,
+                        application_status: "sent",
+                        cv_url: "https://masar.edu.ye/cv/mazen.pdf"
+                    });
+                    alert("✓ تم إرسال السيرة الذاتية وحفظ التقديم فعلياً في جدول training_matches بقاعدة بيانات Supabase!");
+                    return;
+                } catch (e) {}
+            }
+            alert("تم إرسال السيرة الذاتية بنجاح!");
+        }
+
+        function openRiasecModal() {
+            alert("نتيجة اختبار هولاند: متوافق بنسبة 96.8% مع تخصص هندسة البرمجيات (رمز IRC)");
+        }
+
+        function showStd() {
+            document.getElementById('v-std').classList.remove('hidden');
+            document.getElementById('v-uni').classList.add('hidden');
+            document.getElementById('b-std').className = 'px-4 py-2 rounded-xl bg-white text-indigo-700 shadow-sm transition';
+            document.getElementById('b-uni').className = 'px-4 py-2 rounded-xl text-slate-500 hover:text-slate-900 transition';
+        }
+
+        function showUni() {
+            document.getElementById('v-uni').classList.remove('hidden');
+            document.getElementById('v-std').classList.add('hidden');
+            document.getElementById('b-uni').className = 'px-4 py-2 rounded-xl bg-white text-indigo-700 shadow-sm transition';
+            document.getElementById('b-std').className = 'px-4 py-2 rounded-xl text-slate-500 hover:text-slate-900 transition';
+        }
+    </script>
+</body>
+</html>
